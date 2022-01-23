@@ -1,0 +1,304 @@
+<%- include('component/head') %>
+<style>
+  .openmyBox{
+    border-radius: 10px 0px 0px 10px;
+    border: 2px solid red;
+    border-left: 8px solid red;
+    width: 100%;
+    border-right: 0px solid;
+  }
+  .closemyBox{
+   border-radius: 10px;
+   border: 1px solid gray;
+   width: 90%;
+  }
+</style>
+<body>
+    <%- include('component/navbar') %>
+ 
+    <!-- <div id="navDiv">
+        <img style="width: 100px; cursor: pointer; " onclick="gotohme()" src="https://ik.imagekit.io/upgrad1/marketing-platform-assets/images/brand-images/upgrad-logo.svg" alt="">
+        <h3>Checkout</h3>
+        <h3 id="username"></h3>
+    </div> -->
+    <div  id="details" style="margin-top: 100px; display: flex; flex-direction: column;  background-color:white ; box-shadow: 5px 5px 19px 0px rgba(0, 0, 0, 0.5);
+    width: 88%; margin: 50px auto ;border: 1px lightgrey; border-radius: 15px; padding: 20px; box-sizing: border-box;">
+      <%courcearray.map((item)=>{%>
+        <div style="display: flex; box-sizing: border-box; padding: 20px; border: 0px solid;justify-content: space-around;">
+                <div style=" border: 0px solid; text-align:center; height: 120px;  display: flex; justify-content: center;gap: 10px; align-items: center; flex-direction: column; ">
+                    <h3 style="font-weight: lighter;margin-left: 0px; border: 0px solid;color: rgb(82, 79, 79);">Start Learning From:</h3>
+                    <h1 style="margin-top: 0px;margin-bottom: 0px; border: 0px solid; "><%=item.gen_emi%>/mo**</h1>
+                    <h2 style="font-size:18px;margin-top: 0px; color:rgba(65, 63, 63, 0.836);border: 0px solid; ">AT 0% Interest or INR. 4,50,000  </h2>
+                
+                    
+                </div>
+                <div style="display: flex; margin-left: 250px; border: 0px solid;width: 600px; justify-content: space-between;  ">
+                  <div>
+                    <h1> Your course:</h1>
+                  </div>
+
+                  <div style="display:flex;  border: 0px solid lightgrey; height: 150px; width: 450px; border-radius: 10px; margin-left: -40px; margin-top: 10px; ">
+                    <span><img style="margin: 10px; width: 50px; height:50px;" src="https://cdn-icons-png.flaticon.com/128/864/864102.png" alt=""></span>
+                    <span ">
+                      <h3><%=item. hp_title%></h3>
+                      <h5 style="margin-top: 5px;" ><%=item. hp_institute%></h5>
+                      <span style="margin-top: 10px;" ><%=item. hp_duration%></span><span> | <%=item.prodP_StartsOn%></span>
+                    </span>
+                  
+                  </div>
+                
+                
+                </div>
+               
+        </div>
+        <hr>
+  
+            
+        <% }) %>
+          </div>
+    <div id="mainDiv">
+
+
+      <div id="payDiv">
+        <div id="payHead"><h3>1.Make Payment</h3></div>
+        <div id="payOption">
+          <div id="creditCard" class="openmyBox">	&#9734 Recommended
+              <div  class="innertext">o% interest</div>
+          </div>
+          <div id="debitCard" class="closemyBox">Pocket-Friendly
+            <div class="innertext">Lowest cost / month</div>
+          </div>
+          <div id="cash" class="closemyBox">&#9202  Reserve a Seat
+            <div class="innertext">Pay the rest later</div>
+          </div>
+          <div id="upi" class="closemyBox">&#x20B9   Other options
+            <div id="otheropt" class="innertext">Pay upfront</div>
+          </div>
+        </div>
+        <div id="optionSelect">
+       </div>
+      </div>
+      <div id="sumDiv" style="border: 0px solid black; width: 350px;">
+        <div class="paymentDiv" style="border:1px solid lightgrey;box-sizing: border-box;padding: 10px; width: 100%; border-radius:10px; box-shadow: 5px 5px 19px 0px rgba(0, 0, 0, 0.5);">
+          <h3>SUMMARY</h3>
+          <div style="display: flex; border-bottom: 1px solid black; margin-top: 20px;flex-direction: column;">
+           <script> let sum = 0 </script>
+              <% courcearray.map( a=> { %>
+                  <div style="display: flex;border: 0px solid;justify-content: space-evenly;">
+                      <div style="margin: 10px; font-size:large; color: grey;">Course fee : </div>
+                      <div style="margin: 10px;  font-size: 18px; color: grey;">
+                        <%= a.gen_emi %>
+                      </div>
+                      <script>
+                        var price = '<%-a.gen_emi%>';
+                        price = Number(price.substring(3).split(",").join(""))
+                        console.log(price);
+                        sum += price;
+                        console.log("sum = ",sum);
+                      </script>
+                  </div>
+                <% } )%>
+
+           
+             
+                  
+
+          </div>
+          
+          <div style="display: flex;">
+            <div style="margin: 10px; font-weight: bold;" >TOTAL</div>
+            <div style="margin: 10px; font-weight: bold; margin-left: 105px;">INR <script>document.write(sum)</script></div>
+           
+          </div>
+          <div style="margin-left: 50px; font-size:15px;">
+            or INR.12,396/mo** at 0% Interest 
+          </div>
+        </div>
+        
+      </div>
+    </div>
+ </body>
+
+ <script src="https://cdn.jsdelivr.net/npm/axios@0.25.0/dist/axios.min.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+
+  axios.post(`/order?amount=${sum}`).then((info) => {
+    console.log(info);
+
+    var options = {
+      "key": "rzp_test_Niuh6hOjeEJsU6",
+      "name": "UpGrad",
+      "description": "Test Transaction",
+      "image": "/logo.png",
+      "order_id": info.data.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
+      "prefill": {
+        "name": "Gaurav Kumar",
+        "email": "gaurav.kumar@example.com",
+        "contact": "9999999999"
+      },
+      "notes": {
+        "address": "Razorpay Corporate Office"
+      },
+      "theme": {
+        "color": "#3399cc"
+      }
+    };
+
+      var rzp1 = new Razorpay(options);
+    document.getElementById('upi').onclick = function (e) {
+      console.log("working");
+      rzp1.open();
+      e.preventDefault();
+    }
+
+  })
+
+
+
+</script>
+
+<script>
+  displayCredit(); 
+// cards section starts here
+document.getElementById("creditCard").addEventListener("click", () => {
+  document.getElementById("optionSelect").innerHTML = "";
+
+  displayCredit();
+
+
+  document.getElementById("debitCard").className = "closemyBox"
+  document.getElementById("cash").className = "closemyBox"
+  document.getElementById("upi").className = "closemyBox"
+  document.getElementById("creditCard").className = "openmyBox"
+  
+});
+
+
+document.getElementById("debitCard").addEventListener("click", () => {
+   document.getElementById("optionSelect").innerHTML = "";
+
+ 
+
+  document.getElementById(
+    "optionSelect"
+  ).innerHTML = ` <div id="displayPayment">
+  <div style="display: flex; height: 150px; width:500px ;justify-content: space-evenly; margin-right:-50px;  " id="firstPayment">
+      <div style="height:  110px; width: 200px; border: 1px solid rgb(223,225,230); border-radius: 15px;" id="credit"><h4>STANDARD CREDIT CARD EMI</h4>
+      <p>(Zero Down Payment)</p>
+      </div>
+      <div style="height: 110px; width: 200px; border: 1px solid rgb(223,225,230);border-radius: 15px; "  id="emicredit">
+          <h4>STANDARD CARDLESS EMI</h4>
+          <p>(min. INR-15,000 Down Payment)</p>
+      
+      </div>
+  </div>
+  <div id="bankDetails"></div>
+</div>`;
+
+  document.getElementById("debitCard").className = "openmyBox"
+  document.getElementById("cash").className = "closemyBox"
+  document.getElementById("upi").className = "closemyBox"
+  document.getElementById("creditCard").className = "closemyBox"
+});
+
+
+function displayCredit() {
+ 
+ 
+
+  document.getElementById(
+    "optionSelect"
+  ).innerHTML = `  <div id="displayPayment">
+  <div  style="display: flex; height: 150px; width:500px ;justify-content: space-evenly;  " id="firstPayment">
+      <div id="firstPay" style="height:  110px; width: 200px; border: 1px solid rgb(223,225,230); border-radius: 15px;" id="credit"><h4>NO COST CREDIT CARD EMI</h4>
+      <p>(Zero Down Payment)</p>
+      </div>
+      <div id="secondPay" style="height: 110px; width: 200px; border: 1px solid rgb(223,225,230);border-radius: 15px; "  id="emicredit">
+          <h4>NO COST CARDLESS EMI</h4>
+          <p>(min. INR-15,000 Down Payment)</p>
+      
+      </div>
+  </div>
+  <div id="bankDetails"></div>
+</div>`;
+}
+// card section finishes here
+
+// cash section starts here
+document.getElementById("cash").addEventListener("click", () => {
+  document.getElementById("optionSelect").innerHTML = "";
+
+  document.getElementById(
+    "optionSelect"
+  ).innerHTML = `<div id="payUsing"><p id="heading">Pay using UPI</p></div>
+  <hr>
+  <table>
+    <tr>
+      <td><input type="email" id="upi_val" placeholder="Enter VPA.Ex.90152xxxx@oksbi"></td>
+      <td><button id="varify"  onclick="changecolor()">Varify</button></td>
+    </tr>
+  </table>
+  <button id="btn-upi">PAY NOW</button>
+
+<p id="trust-upi">TrustPay: 100% Payment Protection, Easy Returns Policy</p>
+<h6>By placing the order, I have read and agreed to snapdeal.com's  <a href="#">Terms of Use</a>   |   <a href="#">Terms of sale</a></h6>`;
+
+  document.getElementById("debitCard").className = "closemyBox"
+  document.getElementById("cash").className = "openmyBox"
+  document.getElementById("upi").className = "closemyBox"
+  document.getElementById("creditCard").className = "closemyBox"
+
+});
+// upi section starts here
+// document.getElementById("upi").addEventListener("click", () => 
+// {
+//   document.getElementById("optionSelect").innerHTML = "";
+//   window.location.href = `/order`
+  
+// //   document.getElementById(
+// //     "optionSelect"
+// //   ).innerHTML = `<div id="displayPayment">
+// //   <div style="display: flex; height: 150px; width: 600px ;justify-content: space-evenly;  " id="firstPayment">
+// //       <div style="height:  110px; width: 200px; border: 1px solid rgb(223,225,230); border-radius: 15px;" id="credit"><h4>Credit / Debit Card</h4>
+// //       <p>(Zero Down Payment)</p>
+// //       </div>
+// //       <div style="height: 110px; width: 200px; border: 1px solid rgb(223,225,230);border-radius: 15px; "  id="emicredit">
+// //           <h4>	Net Banking</h4>
+// //           <p>(min. INR-15,000 Down Payment)</p>
+      
+// //       </div>
+// //   </div>
+// //   <div id="bankDetails"></div>
+// // </div>`;
+
+//   document.getElementById("debitCard").className = "closemyBox"
+//   document.getElementById("cash").className = "closemyBox"
+//   document.getElementById("upi").className = "openmyBox"
+//   document.getElementById("creditCard").className = "closemyBox"
+
+// });
+function changecolor(){
+  document.getElementById("btn-upi").style.backgroundColor="rgb(238,44,60)"
+  // document.getElementById("btn-upi").setAttribute("onclick","success()")
+}
+
+document.getElementById("firstPay").addEventListener("click",()=>{
+    console.log("ypho")
+    document.getElementById("firstPay").style.border="2px solid rgb(2,169,113)"
+    document.getElementById("firstPay").style.borderBottom="10px solid rgb(2,169,113)"
+
+})
+
+document.getElementById("secondPay").addEventListener("click",()=>{
+    console.log("ypho")
+    document.getElementById("secondPay").style.border="2px solid rgb(2,169,113)"
+    document.getElementById("secondPay").style.borderBottom="10px solid rgb(2,169,113)"
+
+})
+
+
+
+</script>  
+
